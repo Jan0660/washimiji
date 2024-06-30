@@ -1,0 +1,92 @@
+{
+    "svgPrefix": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- Generated SVG using Washimiji (https://github.com/Jan0660/washimiji) using SVGs from the KanjiVG project (http://kanjivg.tagaini.net) which is distributed under the Creative Commons Attribution-Share Alike 3.0 License and so is this SVG. See http://creativecommons.org/licenses/by-sa/3.0/ for more details. -->\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"109\" height=\"109\" viewBox=\"0 0 109 109\">",
+    "svgSuffix": "</svg>",
+    "viewbox": {
+        "x": 0,
+        "y": 0,
+        "width": 109,
+        "height": 109
+    },
+    "mutilations": [
+        {
+            "name": "2v",
+            "partCount": 2,
+            "parts": [
+                {
+                    "ymultiply": 0.5 
+                },
+                {
+                    "ymove": 0.5,
+                    "ymultiply": 0.5
+                }
+            ]
+        },
+        {
+            "name": "2h",
+            "partCount": 2,
+            "parts": [
+                {
+                    "xmultiply": 0.5
+                },
+                {
+                    "xmove": 0.5,
+                    "xmultiply": 0.5
+                }
+            ]
+        },
+        {
+            "name": "4",
+            "partCount": 4,
+            "parts": [
+                {
+                    "xmultiply": 0.5,
+                    "ymultiply": 0.5
+                },
+                {
+                    "xmultiply": 0.5,
+                    "ymultiply": 0.5,
+                    "xmove": 0.5
+                },
+                {
+                    "xmultiply": 0.5,
+                    "ymultiply": 0.5,
+                    "ymove": 0.5
+                },
+                {
+                    "xmultiply": 0.5,
+                    "ymultiply": 0.5,
+                    "xmove": 0.5,
+                    "ymove": 0.5
+                }
+            ]
+        },
+        {
+            "name": "⻌",
+            "baseCharacter": "⻌",
+            "partCount": 1,
+            "parts": [
+                {
+                    "absoluteMove": true,
+                    "xmove": 20,
+                    "ymove": 2,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "門",
+            "baseCharacter": "門",
+            "partCount": 1,
+            "parts": [
+                {
+                    "absoluteMove": true,
+                    "xmove": 21,
+                    "ymove": 40,
+                    "xmultiply": 0.55,
+                    "ymultiply": 0.55
+                }
+            ]
+        }
+    ]
+}

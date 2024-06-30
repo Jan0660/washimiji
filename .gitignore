@@ -1,0 +1,15 @@
+backend/washimiji
+backend/washimiji.exe
+backend/config.json
+backend/static
+.idea/
+character-maker/out
+character-maker/bin
+character-maker/obj
+character-maker/.idea
+character-maker/custom-characters.json
+character-maker/config.json
+res
+venv
+frontend/node_modules
+frontend/*.local
