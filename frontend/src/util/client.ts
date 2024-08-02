@@ -134,7 +134,11 @@ export type CharacterMakePart = {
 export type Word = {
     _id: string
     characters: string[]
-    words: string[]
+    words: WordForm[]
+};
+
+export type WordForm = {
+    text: string
 };
 
 export type WordWithText = Word & {

@@ -48,9 +48,9 @@ func ToWashimiji(text string, context context.Context) (string, error) {
 		longestMatchLength := 0
 		for _, word := range words {
 			for _, wordForm := range word.Words {
-				if len(wordForm) > longestMatchLength && i+len(wordForm) <= len(text) && strings.EqualFold(text[i:i+len(wordForm)], wordForm) {
+				if len(wordForm.Text) > longestMatchLength && i+len(wordForm.Text) <= len(text) && strings.EqualFold(text[i:i+len(wordForm.Text)], wordForm.Text) {
 					longestMatch = &word
-					longestMatchLength = len(wordForm)
+					longestMatchLength = len(wordForm.Text)
 				}
 			}
 		}
@@ -96,7 +96,7 @@ func FromWashimiji(text string, context context.Context) (string, error) {
 			}
 		}
 		if longestMatchLength != 0 {
-			_, _ = output.WriteString(longestMatch.Words[0])
+			_, _ = output.WriteString(longestMatch.Words[0].Text)
 			i += longestMatchLength
 		} else {
 			nextSpace := strings.IndexRune(text[i:], ' ')

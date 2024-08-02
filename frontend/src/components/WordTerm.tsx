@@ -8,7 +8,7 @@ export default function WordTerm(props: { word: WordWithText }) {
     return <div class="termBox">
         <span class="term">{word.text ?? "???"}</span>
         <br />
-        <span><b>Words: </b>{word.words?.join(", ")}</span>
+        <span><b>Words: </b>{word.words?.map(w => w.text)?.join(", ")}</span>
         <br />
         <span><b>Characters: </b>{word.characters?.join(", ")}</span>
         <Show when={config.token}>

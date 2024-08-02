@@ -65,9 +65,13 @@ type Character struct {
 }
 
 type Word struct {
-	Id         string   `json:"_id" bson:"_id"`
-	Characters []string `json:"characters" bson:"characters"`
-	Words      []string `json:"words" bson:"words"`
+	Id         string     `json:"_id" bson:"_id"`
+	Characters []string   `json:"characters" bson:"characters"`
+	Words      []WordForm `json:"words" bson:"words"`
+}
+
+type WordForm struct {
+	Text string `json:"text"`
 }
 
 // API types
