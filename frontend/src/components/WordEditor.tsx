@@ -1,5 +1,6 @@
 import { createEffect, createSignal, Setter } from "solid-js";
-import { Word } from "../util/client";
+import { Word, WordForm } from "../util/client";
+import { DumbArrayEditor } from "./DumbArrayEditor";
 
 export default function WordEditor(props: { word: Word, setWord: Setter<Word>, }) {
     const { word, setWord } = props;
@@ -28,8 +29,18 @@ export default function WordEditor(props: { word: Word, setWord: Setter<Word>, }
             Words (space-separated)
         </label>
         <br />
-        <input class="wideInput" id="wordsInput" type="text" placeholder="Words" value={word.words?.join(" ") ?? ""} onInput={
-            (e) => setWords(e.target.value.trim().split(" "))
-        } />
+        <DumbArrayEditor makeEmpty={() => ({text: ""} as WordForm)} array={words} setArray={setWords} renderItem={(wordForm, index) => {
+            return <div>
+                <input id="wordsInput" type="text" placeholder="Words" value={wordForm.text} onInput={
+                    (e) => {
+                        const m = words();
+                        m[index()] = {
+                            text: e.target.value,
+                        };
+                        setWords(m);
+                    }
+                } />
+            </div>
+        }}/>
     </>;
 }
