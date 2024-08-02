@@ -10,6 +10,7 @@ import (
 	"path"
 	"path/filepath"
 	"slices"
+	"strconv"
 	"time"
 
 	"github.com/gin-contrib/gzip"
@@ -236,6 +237,7 @@ func main() {
 		}
 		c.JSON(200, wordsWithText)
 	})
+	// todo: make it /admin/make-font
 	authed.GET("/make-font", func(c *gin.Context) {
 		err := MakeFont(context.TODO())
 		if err != nil {
@@ -243,6 +245,51 @@ func main() {
 			return
 		}
 		c.Status(200)
+	})
+	authed.GET("/admin/test-mutilations", func(c *gin.Context) {
+		bytes, err := os.ReadFile("../character-maker/kanjivg-config.json")
+		if err != nil {
+			c.JSON(500, Error(err))
+			return
+		}
+		var mutilationFile MutilationFile
+		err = json.Unmarshal(bytes, &mutilationFile)
+		if err != nil {
+			c.JSON(500, Error(err))
+			return
+		}
+		parts := [][]string{{"虎", "視", "眈", "々"}}
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+		for _, mutilation := range mutilationFile.Mutilations {
+			for i, currentParts := range parts {
+				name := "test-" + mutilation.Name + "-" + strconv.Itoa(i)
+				res := CharCol.FindOne(ctx, bson.M{"makeInfo.name": name})
+				if res.Err() == mongo.ErrNoDocuments {
+					makeParts := make([]*CharacterMakePart, mutilation.PartCount)
+					for j := 0; j < int(mutilation.PartCount); j++ {
+						makeParts[j] = &CharacterMakePart{
+							Type:      "char",
+							Character: &currentParts[j],
+						}
+					}
+					char := Character{
+						Id: NewUlid(),
+						MakeInfo: CharacterMakeInfo{
+							Name: name,
+							Parts: &[]*CharacterMakePart{
+								{
+									Type:  mutilation.Name,
+									Parts: &makeParts,
+								},
+							},
+						},
+					}
+					CharCol.InsertOne(ctx, char)
+				}
+			}
+		}
+		c.Status(204)
 	})
 	convert := r.Group("/convert", func(c *gin.Context) {
 		if c.Request.ContentLength > int64(Config.ConvertBodyLimit) {
