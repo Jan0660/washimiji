@@ -53,3 +53,7 @@
   padding-right: 10%;
   flex-wrap: wrap;
 }
+
+.linkBar a {
+  font-size: calc(10px + 2vmin);
+}
