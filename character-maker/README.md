@@ -48,6 +48,7 @@ Full config for use with KanjiVG is available in `kanjivg-config.json`
     - `y`: decimal number
     - `width`: decimal number
     - `height`: decimal number
+- `preprocess`: object(same as in `parts` of `mutilations`) - a mutilation to be applied to every character before further processing
 - `mutilations`: array of
     - `name`: string
     - `baseCharacter`?: string

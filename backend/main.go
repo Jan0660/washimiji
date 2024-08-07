@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -24,6 +25,7 @@ var Config Configuration
 var MongoClient *mongo.Client
 var CharCol *mongo.Collection
 var WordCol *mongo.Collection
+var DictCol *mongo.Collection
 
 func main() {
 	{
@@ -51,6 +53,12 @@ func main() {
 		CharCol = db.Collection("characters")
 		_ = db.CreateCollection(context.TODO(), "words")
 		WordCol = db.Collection("words")
+		dictDb := db
+		if Config.DictDatabase != nil {
+			dictDb = MongoClient.Database(*Config.DictDatabase)
+		}
+		_ = dictDb.CreateCollection(context.TODO(), "dict")
+		DictCol = dictDb.Collection("dict")
 	}
 
 	r := gin.Default()
@@ -336,6 +344,109 @@ func main() {
 		}
 		c.JSON(200, Request{Text: output})
 	})
+	authed.GET("/admin/derived-words", func(c *gin.Context) {
+		CharactersModified = true
+		WordsModified = true
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+		words, err := GetAllWordsCached(ctx)
+		if err != nil {
+			c.JSON(500, Error(err))
+			return
+		}
+		for _, word := range words {
+			for _, wordForm := range word.Words {
+				cursor, err := DictCol.Find(ctx, bson.M{"word": wordForm.Text})
+				if err != nil {
+					c.JSON(500, Error(err))
+					return
+				}
+				var wiktionaryWords []WiktionaryWord
+				err = cursor.All(ctx, &wiktionaryWords)
+				if err != nil {
+					c.JSON(500, Error(err))
+					return
+				}
+				for _, wiktionaryWord := range wiktionaryWords {
+					if wiktionaryWord.Forms == nil {
+						continue
+					}
+					if wordForm.EtymologyNumber == nil && wiktionaryWord.EtymologyNumber != nil {
+						log.Println("skipping word form '" + wordForm.Text + "' - etymology number not set on word form but present on Wiktionary word!")
+						continue
+					}
+					for _, form := range *wiktionaryWord.Forms {
+						derivationName := DerivationName(form.Tags)
+						// make the character for the derived word
+						// even though the word may exist its character may not
+						if len(word.Characters) > 1 {
+							log.Println("making derived character for first character of multi-character word")
+						}
+						originalCharacter := word.Characters[0][2:]
+						characterName := originalCharacter + "-" + derivationName
+						res := CharCol.FindOne(ctx, bson.M{"makeInfo.name": characterName})
+						if errors.Is(res.Err(), mongo.ErrNoDocuments) {
+							CharCol.InsertOne(ctx, Character{
+								Id: NewUlid(),
+								MakeInfo: CharacterMakeInfo{
+									Name: characterName,
+									Parts: &[]*CharacterMakePart{
+										{
+											Type:      derivationName,
+											Character: &originalCharacter,
+										},
+									},
+								},
+							})
+						} else if res.Err() != nil {
+							c.JSON(500, Error(err))
+							return
+						}
+						// check if derived word exists, make it if not
+						var derivedWord Word
+						res = WordCol.FindOne(ctx, bson.M{
+							"derivedFrom": word.Id,
+							// "derivedTags": bson.M{"$size": len(form.Tags), "$all": form.Tags},
+							"derivedName": DerivationName(form.Tags),
+						})
+						err = res.Decode(&derivedWord)
+						if errors.Is(err, mongo.ErrNoDocuments) {
+							log.Println("word form '" + form.Form + "' doesn't exist")
+							if !slices.Contains(
+								[]string{"past", "past participle", "gerund", "third", "plural"},
+								derivationName) {
+								log.Println("unsupported form tags:", form)
+							}
+							derivedWord = Word{
+								Id:          NewUlid(),
+								Characters:  []string{"n:" + characterName},
+								Words:       []WordForm{{Text: form.Form}},
+								DerivedFrom: &word.Id,
+								DerivedName: &derivationName,
+							}
+							_, err = WordCol.InsertOne(ctx, derivedWord)
+							if err != nil {
+								c.JSON(500, Error(err))
+								return
+							}
+						} else if err != nil {
+							c.JSON(500, Error(err))
+							return
+						} else {
+							if !slices.ContainsFunc(derivedWord.Words, func(wordForm WordForm) bool { return wordForm.Text == form.Form }) {
+								derivedWord.Words = append(derivedWord.Words, WordForm{
+									Text:            form.Form,
+									EtymologyNumber: wordForm.EtymologyNumber,
+								})
+								DictCol.ReplaceOne(ctx, bson.M{"_id": derivedWord.Id}, derivedWord)
+							}
+						}
+					}
+				}
+			}
+		}
+		c.Status(204)
+	})
 	if _, err := os.Stat(Config.Paths.StaticServe); os.IsNotExist(err) {
 		os.Mkdir(Config.Paths.StaticServe, 0750)
 	}
@@ -394,9 +505,9 @@ func MakeFont(context context.Context) error {
 	}
 	for _, char := range characters {
 		if char.MakeInfo.Code == nil {
-			if code, ok := report.MadeCharacters[char.Id]; ok {
+			if code, ok := report.MadeCharacters[char.MakeInfo.Name]; ok {
 				// todo: would be nice if multiple updates could go on at a time instead of waiting for response each time
-				CharCol.UpdateOne(context, bson.M{"_id": char.Id}, bson.M{
+				CharCol.UpdateOne(context, bson.M{"makeInfo.name": char.MakeInfo.Name}, bson.M{
 					"$set": bson.M{
 						"makeInfo.code": code,
 					},
@@ -435,7 +546,7 @@ func WriteCustomCharactersFile(characters *[]Character, filename string) error {
 	characterMakeInfos := make([]CharacterMakeInfo, len(*characters))
 	for i, char := range *characters {
 		characterMakeInfos[i] = char.MakeInfo
-		characterMakeInfos[i].Name = char.Id
+		// characterMakeInfos[i].Name = char.Id
 	}
 	buf, err := json.Marshal(&characterMakeInfos)
 	if err != nil {
@@ -464,6 +575,7 @@ type Configuration struct {
 	Tokens                   []string           `json:"tokens"`
 	MongoUrl                 string             `json:"mongoUrl"`
 	MongoDatabase            string             `json:"mongoDatabase"`
+	DictDatabase             *string            `json:"dictDatabase"`
 	Paths                    PathsConfiguration `json:"paths"`
 	AccessControlAllowOrigin []string           `json:"accessControlAllowOrigin"`
 	ConvertBodyLimit         int                `json:"convertBodyLimit"`

@@ -135,10 +135,14 @@ export type Word = {
     _id: string
     characters: string[]
     words: WordForm[]
+    derivedFrom?: string
+    derivedName?: string
 };
 
 export type WordForm = {
     text: string
+    tags?: string[]
+    etymologyNumber?: number
 };
 
 export type WordWithText = Word & {

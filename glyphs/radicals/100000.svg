@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+Copyright (C) 2009/2010/2011 Ulrich Apel.
+This work is distributed under the conditions of the Creative Commons
+Attribution-Share Alike 3.0 Licence. This means you are free:
+* to Share - to copy, distribute and transmit the work
+* to Remix - to adapt the work
+
+Under the following conditions:
+* Attribution. You must attribute the work by stating your use of KanjiVG in
+  your own copyright header and linking to KanjiVG's website
+  (http://kanjivg.tagaini.net)
+* Share Alike. If you alter, transform, or build upon this work, you may
+  distribute the resulting work only under the same or similar license to this
+  one.
+
+See http://creativecommons.org/licenses/by-sa/3.0/ for more details.
+-->
+
+<svg
+   width="109"
+   height="109"
+   viewBox="0 0 109 109"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="100000.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:kvg="http://kanjivg.tagaini.net">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="11.093143"
+     inkscape:cx="48.813938"
+     inkscape:cy="24.835162"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="kvg:04e5e-g1" />
+  <g
+     id="kvg:StrokePaths_04e5e"
+     style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;">
+    <g
+       id="kvg:04e5e"
+       kvg:element="乞">
+      <g
+         id="kvg:04e5e-g1"
+         kvg:position="top">
+        <path
+           id="kvg:04e5e-s1"
+           kvg:type="㇒"
+           d="m 21.817334,10.316814 c 0.02004,0.545261 -0.163112,2.097418 -0.289071,2.701947 -1.278401,6.04618 -2.378969,11.377316 -5.206629,17.427348 -0.445848,0.953928 -1.568353,2.541062 -2.070133,3.500034"
+           style="stroke-width:3"
+           sodipodi:nodetypes="ccsc" />
+        <path
+           id="kvg:04e5e-s2"
+           kvg:type="㇐"
+           d="M 19.241871,23.884672 C 24.41341,23.508748 29.345544,23.20404 34.67927,22.758102 48.100749,21.012396 64.587662,19.11101 80.799,16.279394 c 4.400766,-0.773886 9.728474,-2.161228 14.755765,-1.799562 4.994175,0.359283 -9.65845,20.284145 -9.341421,20.291084"
+           style="stroke-width:3"
+           sodipodi:nodetypes="cccsc" />
+      </g>
+    </g>
+  </g>
+</svg>

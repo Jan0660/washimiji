@@ -27,8 +27,14 @@ All config options are required.
 - `tokens` - Array of tokens that can be used to access endpoints that require authentication.
 - `mongoUrl` - [MongoDB connection string](https://www.mongodb.com/docs/manual/reference/connection-string/)
 - `mongoDatabase` - Name of the database to use, will be created if it does not already exist.
+- `dictDatabase` - If not set `mongoDatabase` is used. Name of the database the `dict` collection is in.
 - `paths` Paths to different parts of the Washimiji project.
     All the example values above are valid as long as you run the backend in this directory.
 - `accessControlAllowOrigin` - Values for the `Access-Control-Allow-Origin` header. Set to `["*"]` to allow all origins. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) for more info. If multiple origins are provided the one that matches the `Origin` header will be sent on the requests.
 - `convertBodyLimit` - Maximum length of the request body accepted by the `/convert/*` endpoints.
     So the real maximum length of the `text` field is a little lower than this.
+
+## Wiktionary Data
+
+Data from [Wiktextract](https://github.com/tatuylonen/wiktextract) is used for derived forms of words.
+Import the JSON from the bottom of [this page](https://kaikki.org/dictionary/English/index.html) into a MongoDB collection called `dict` in the database you are using.

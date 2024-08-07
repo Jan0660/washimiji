@@ -1,5 +1,9 @@
 package main
 
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
 // types for communication with other parts of the project
 
 type ChracterMakerConfig struct {
@@ -65,13 +69,17 @@ type Character struct {
 }
 
 type Word struct {
-	Id         string     `json:"_id" bson:"_id"`
-	Characters []string   `json:"characters" bson:"characters"`
-	Words      []WordForm `json:"words" bson:"words"`
+	Id          string     `json:"_id" bson:"_id"`
+	Characters  []string   `json:"characters" bson:"characters"`
+	Words       []WordForm `json:"words" bson:"words"`
+	DerivedFrom *string    `json:"derivedFrom,omitempty" bson:"derivedFrom,omitempty"`
+	DerivedName *string    `json:"derivedName,omitempty" bson:"derivedName,omitempty"`
 }
 
 type WordForm struct {
-	Text string `json:"text"`
+	Text            string    `json:"text" bson:"text"`
+	Tags            *[]string `json:"tags,omitempty" bson:"tags,omitempty"`
+	EtymologyNumber *int32    `json:"etymologyNumber,omitempty" bson:"etymologyNumber,omitempty"`
 }
 
 // API types
@@ -79,4 +87,29 @@ type WordForm struct {
 type WordWithText struct {
 	Word
 	Text string `json:"text"`
+}
+
+// Wiktionary
+
+type WiktionaryWord struct {
+	Id           primitive.ObjectID `bson:"_id"`
+	PartOfSpeech string             `bson:"pos"`
+	// head_templates
+	Forms           *[]WiktionaryForm `bson:"forms,omitempty"`
+	EtymologyNumber *int              `bson:"etymology_number,omitempty"`
+	// wikipedia?
+	EtymologyText *string `bson:"etymology_text,omitempty"`
+	// etymology_templates
+	Word string `bson:"word"`
+	// synonyms
+	// hypernyms?
+	// hyponyms?
+	// meronyms?
+	// derived
+	// senses
+}
+
+type WiktionaryForm struct {
+	Form string   `bson:"form"`
+	Tags []string `bson:"tags"`
 }

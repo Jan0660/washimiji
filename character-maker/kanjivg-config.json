@@ -93,6 +93,71 @@
                     "ymultiply": 0.55
                 }
             ]
+        },
+        {
+            "name": "past",
+            "baseCharacter": "艹",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0.3,
+                    "xmultiply": 1,
+                    "ymultiply": 0.7
+                }
+            ]
+        },
+        {
+            "name": "past participle",
+            "baseCharacter": "􀀁",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.3,
+                    "ymove": 0,
+                    "xmultiply": 0.7,
+                    "ymultiply": 0.7
+                }
+            ]
+        },
+        {
+            "name": "gerund",
+            "baseCharacter": "􀀂",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0,
+                    "xmultiply": 0.75,
+                    "ymultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "third",
+            "baseCharacter": "?",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0,
+                    "xmultiply": 1,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "plural",
+            "baseCharacter": "𠂉",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.2,
+                    "ymove": 0.25,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.75
+                }
+            ]
         }
     ]
 }
