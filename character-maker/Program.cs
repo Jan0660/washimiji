@@ -218,6 +218,31 @@ cutSidesCommand.SetHandler(async c =>
     Console.WriteLine($"Did {done.Count} characters in {stopwatch.ElapsedMilliseconds}ms.");
 });
 rootCommand.AddCommand(cutSidesCommand);
+var preprocessAllCommand = new System.CommandLine.Command("preprocess-all", "Preprocesses every SVG in a directory, replacing them");
+var dirOption = new Option<DirectoryInfo>("--dir")
+{
+    IsRequired = true
+};
+preprocessAllCommand.AddOption(dirOption);
+preprocessAllCommand.AddOption(configOption);
+preprocessAllCommand.SetHandler(async c => {
+    var dir = c.ParseResult.GetValueForOption(dirOption);
+    if (dir == null)
+        throw new("dir not set");
+    var configFile = c.ParseResult.GetValueForOption(configOption)!;
+    if (!configFile.Exists)
+        throw new($"{configFile.FullName} does not exist!");
+    config = JsonSerializer.Deserialize<MutilationFile>(await File.ReadAllTextAsync(configFile.FullName), options: jsonOptions)!;
+    if (config.Preprocess == null)
+        throw new("config's preprocess is null!");
+    foreach(var file in Directory.GetFiles(dir.FullName)){
+        var svg = await File.ReadAllTextAsync(file);
+        svg = Mutilate(svg, config.Preprocess);
+        await File.WriteAllTextAsync(file, svg);
+    }
+    Console.WriteLine($"done in {stopwatch.ElapsedMilliseconds}ms");
+});
+rootCommand.Add(preprocessAllCommand);
 
 return await rootCommand.InvokeAsync(args);
 
@@ -329,6 +354,8 @@ async Task<string?> GetCharacterSvgAsync(string character)
                 if (removeKanjiVGProperties)
                     svg = kanjiVGPropertyRegex.Replace(svg, "");
                 svg = inkscapeJunkRegex.Replace(svg, "");
+                if (config.Preprocess != null)
+                    svg = Mutilate(svg, config.Preprocess);
                 characterSvgs[originalCode] = svg;
                 return svg;
             }
@@ -755,7 +782,7 @@ public record Mutilation(decimal XMove = 0, decimal YMove = 0, decimal XMultiply
     public bool AbsoluteMove { get; init; } = false;
 }
 
-public record MutilationFile(Dictionary<string, string>? Substitutions, MutilationDefinition[] Mutilations)
+public record MutilationFile(Dictionary<string, string>? Substitutions, MutilationDefinition[] Mutilations, Mutilation? Preprocess = null)
 {
     public required string SvgPrefix { get; init; }
     public required string SvgSuffix { get; init; }

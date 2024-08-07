@@ -7,6 +7,12 @@
         "width": 109,
         "height": 109
     },
+    "preprocess": {
+        "xmove": -0.07,
+        "ymove": -0.014,
+        "xmultiply": 1.14,
+        "ymultiply": 1.14
+    },
     "mutilations": [
         {
             "name": "2v",

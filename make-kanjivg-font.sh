@@ -6,6 +6,8 @@ mkdir /tmp/make-kanjivg-font
 echo "Copying SVGs to tmp"
 cp ./submodules/kanjivg/kanji/*.svg /tmp/make-kanjivg-font
 pushd character-maker
+echo "Preprocessing characters"
+dotnet run -- preprocess-all --dir /tmp/make-kanjivg-font
 echo "Cutting sides off of latin alphabet characters"
 dotnet run -- cut-sides --output /tmp/make-kanjivg-font --character-ranges "41,90;61,7A" --margin 10 --input ../submodules/kanjivg/kanji
 popd
