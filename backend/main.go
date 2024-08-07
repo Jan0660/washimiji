@@ -413,9 +413,9 @@ func main() {
 						if errors.Is(err, mongo.ErrNoDocuments) {
 							log.Println("word form '" + form.Form + "' doesn't exist")
 							if !slices.Contains(
-								[]string{"past", "past participle", "gerund", "third", "plural"},
+								[]string{"past", "past-participle", "gerund", "third", "plural"},
 								derivationName) {
-								log.Println("unsupported form tags:", form)
+								log.Println("unsupported form tags:", form, derivationName)
 							}
 							derivedWord = Word{
 								Id:          NewUlid(),
