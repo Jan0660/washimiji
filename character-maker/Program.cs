@@ -26,7 +26,8 @@ var pathRegex = new Regex("(?: |\n)d=\"((.|\n)+?)\"", RegexOptions.Compiled);
 var viewboxRegex = new Regex("viewBox=\"(-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+)\"", RegexOptions.Compiled);
 var strokeOrderRegex = new Regex("<g id=\"kvg:StrokeNumbers_.+?>(.|\n)+</g>", RegexOptions.Compiled);
 var kanjiVGPropertyRegex = new Regex("kvg:\\w+?=\".+?\"");
-var svgContentRegex = new Regex("<svg .+?>((?:.|\n)+?)</svg>", RegexOptions.Compiled);
+var svgContentRegex = new Regex("<svg(?:.|\n)+?>((?:.|\n)+?)</svg>", RegexOptions.Compiled);
+var inkscapeJunkRegex = new Regex("<defs(?:.|\n)*?/>|<sodipodi:(?:.|\n)*?/>|sodipodi:(?:.|\n)*?\".*?\"", RegexOptions.Compiled);
 var hexRegex = new Regex("[0-9A-Fa-f]+", RegexOptions.Compiled);
 var widthRegex = new Regex("width=\"[0-9]+\"", RegexOptions.Compiled);
 var str = new StringBuilder();
@@ -46,7 +47,7 @@ var rootCommand = new RootCommand();
 var generateCommand = new System.CommandLine.Command("generate", "Generate SVGs");
 var outputOption = new Option<DirectoryInfo>("--output", () => new DirectoryInfo("./out"), "Directory to place resulting SVGs and extra info into. Deleted before generation.");
 generateCommand.AddOption(outputOption);
-var inputSvgOption = new Option<DirectoryInfo[]>("--input", () => [new DirectoryInfo("../glyphs"), new DirectoryInfo("../submodules/kanjivg/kanji")], "directories to get input SVGs from");
+var inputSvgOption = new Option<DirectoryInfo[]>("--input", () => [new DirectoryInfo("../glyphs/radicals"), new DirectoryInfo("../glyphs"), new DirectoryInfo("../submodules/kanjivg/kanji")], "directories to get input SVGs from");
 generateCommand.AddOption(inputSvgOption);
 var configOption = new Option<FileInfo>("--config", () => new FileInfo("./kanjivg-config.json"), "configuration JSON file");
 generateCommand.AddOption(configOption);
@@ -327,6 +328,7 @@ async Task<string?> GetCharacterSvgAsync(string character)
                     svg = strokeOrderRegex.Replace(svg, "");
                 if (removeKanjiVGProperties)
                     svg = kanjiVGPropertyRegex.Replace(svg, "");
+                svg = inkscapeJunkRegex.Replace(svg, "");
                 characterSvgs[originalCode] = svg;
                 return svg;
             }
