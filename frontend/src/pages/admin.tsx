@@ -15,5 +15,9 @@ export default function Admin() {
             await client.makeFont();
             window.location.reload();
         }}>Make Font</button>
+        <button onClick={async () => {
+            await client.admin.derivedWords();
+            window.location.reload();
+        }}>Make Derived Words</button>
     </>
 }

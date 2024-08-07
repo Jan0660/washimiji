@@ -5,6 +5,7 @@ export class Client {
     public characters: ClientCharacters;
     public words: ClientWords;
     public convert: ClientConvert;
+    public admin: ClientAdmin;
 
     constructor(baseUrl: string, token?: string) {
         this._axios = new Axios({
@@ -24,6 +25,7 @@ export class Client {
         this.characters = new ClientCharacters(this);
         this.words = new ClientWords(this);
         this.convert = new ClientConvert(this);
+        this.admin = new ClientAdmin(this);
     }
 
     async makeFont() {
@@ -104,6 +106,18 @@ export class ClientConvert {
         return (await this.client._axios.post("/convert/from", { text }, {
             signal: signal,
         })).data
+    }
+}
+
+export class ClientAdmin {
+    public client: Client;
+
+    constructor(client: Client) {
+        this.client = client;
+    }
+
+    async derivedWords() {
+        return this.client._axios.get("/admin/derived-words")
     }
 }
 
