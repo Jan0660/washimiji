@@ -4,8 +4,8 @@ import { DumbArrayEditor } from "./DumbArrayEditor";
 
 export default function WordEditor(props: { word: Word, setWord: Setter<Word>, }) {
     const { word, setWord } = props;
-    const [characters, setCharacters] = createSignal(word.characters);
-    const [words, setWords] = createSignal(word.words);
+    const [characters, setCharacters] = createSignal(word.characters ?? []);
+    const [words, setWords] = createSignal(word.words ?? []);
     const [derivedFrom, setDerivedFrom] = createSignal(word.derivedFrom ?? "");
     const [derivedName, setDerivedName] = createSignal(word.derivedName ?? "");
     createEffect(() => {
