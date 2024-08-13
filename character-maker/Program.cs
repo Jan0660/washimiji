@@ -28,6 +28,7 @@ var strokeOrderRegex = new Regex("<g id=\"kvg:StrokeNumbers_.+?>(.|\n)+</g>", Re
 var kanjiVGPropertyRegex = new Regex("kvg:\\w+?=\".+?\"");
 var svgContentRegex = new Regex("<svg(?:.|\n)+?>((?:.|\n)+?)</svg>", RegexOptions.Compiled);
 var inkscapeJunkRegex = new Regex("<defs(?:.|\n)*?/>|<sodipodi:(?:.|\n)*?/>|sodipodi:(?:.|\n)*?\".*?\"", RegexOptions.Compiled);
+var groupRegex = ("<g id=\".+?\" kvg:element=\"", "\"(?:.|\n)*?>(.|\n)+?</g>");
 var hexRegex = new Regex("[0-9A-Fa-f]+", RegexOptions.Compiled);
 var widthRegex = new Regex("width=\"[0-9]+\"", RegexOptions.Compiled);
 var str = new StringBuilder();
@@ -81,6 +82,30 @@ generateCommand.SetHandler(async c =>
         throw new($"{charactersFile.FullName} does not exist!");
     var characters = JsonSerializer.Deserialize<Character[]>(await File.ReadAllTextAsync(charactersFile.FullName), options: jsonOptions)!;
     charactersGlobal = characters;
+
+    // take radicals
+    if (config.TakeRadical != null) {
+        removeKanjiVGProperties = false;
+        var svgs = new Dictionary<int, string>();
+        foreach(var (radical, character) in config.TakeRadical)
+        {
+            var radicalCode = BitConverter.ToInt32(Encoding.UTF32.GetBytes(radical));
+            var svg = await GetCharacterSvgAsync(character);
+            if (svg == null)
+                throw new($"Invalid character '{character}' for taking radicals!");
+            var group = Regex.Match(svg, groupRegex.Item1 + radical + groupRegex.Item2);
+            if (!group.Success)
+                throw new($"Failed to get radical '{radical}' out of '{character}'");
+            var val = group.Captures[0].Value;
+            val = kanjiVGPropertyRegex.Replace(val, "");
+            var index = val.IndexOf('>');
+            // todo
+            val = val[..index] + " style=\"fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;\"" + val[index..];
+            svgs[radicalCode] = val;
+        }
+        characterSvgs = svgs;
+        removeKanjiVGProperties = true;
+    }
 
     foreach (var character in characters)
     {
@@ -553,7 +578,11 @@ Command[] ParsePath(string d)
 }
 
 string GetSvgContent(string svg)
-    => svgContentRegex.Match(svg).Groups[1].Value;
+{
+    var val = svgContentRegex.Match(svg).Groups[1].Value;
+    // might already be just the SVG content
+    return string.IsNullOrEmpty(val) ? svg : val;
+}
 
 // translated from https://github.com/adobe-webplatform/Snap.svg/blob/master/src/path.js#L532
 // todo(perf): optimize this
@@ -782,7 +811,7 @@ public record Mutilation(decimal XMove = 0, decimal YMove = 0, decimal XMultiply
     public bool AbsoluteMove { get; init; } = false;
 }
 
-public record MutilationFile(Dictionary<string, string>? Substitutions, MutilationDefinition[] Mutilations, Mutilation? Preprocess = null)
+public record MutilationFile(Dictionary<string, string>? Substitutions, MutilationDefinition[] Mutilations, Mutilation? Preprocess = null, Dictionary<string, string>? TakeRadical = null)
 {
     public required string SvgPrefix { get; init; }
     public required string SvgSuffix { get; init; }

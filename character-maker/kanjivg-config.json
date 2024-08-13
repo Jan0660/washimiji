@@ -13,6 +13,9 @@
         "xmultiply": 1.14,
         "ymultiply": 1.14
     },
+    "takeRadical": {
+        "灬": "然"
+    },
     "mutilations": [
         {
             "name": "2v",
@@ -156,6 +159,42 @@
                     "ymove": 0.25,
                     "xmultiply": 0.8,
                     "ymultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "灬",
+            "baseCharacter": "灬",
+            "partCount": 1,
+            "parts": [
+                {
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "囗",
+            "baseCharacter": "囗",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.1,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "艹",
+            "baseCharacter": "艹",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0.3,
+                    "xmultiply": 1,
+                    "ymultiply": 0.7
                 }
             ]
         }
