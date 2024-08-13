@@ -159,6 +159,18 @@ func main() {
 		}
 		c.Status(200)
 	})
+	authed.DELETE("/characters/:id", func(c *gin.Context) {
+		CharactersModified = true
+		WordsModified = true
+		id := c.Param("id")
+		res, err := CharCol.DeleteOne(context.TODO(), bson.M{"_id": id})
+		if err != nil {
+			c.JSON(500, Error(err))
+		} else if res.DeletedCount == 0 {
+			c.JSON(404, ErrorStr("invalid character ID"))
+		}
+		c.Status(204)
+	})
 	// todo: paginate
 	r.GET("/words", func(c *gin.Context) {
 		res, err := WordCol.Find(context.TODO(), bson.M{})
@@ -217,6 +229,17 @@ func main() {
 			return
 		}
 		c.Status(200)
+	})
+	authed.DELETE("/words/:id", func(c *gin.Context) {
+		WordsModified = true
+		id := c.Param("id")
+		res, err := WordCol.DeleteOne(context.TODO(), bson.M{"_id": id})
+		if err != nil {
+			c.JSON(500, Error(err))
+		} else if res.DeletedCount == 0 {
+			c.JSON(404, ErrorStr("invalid word ID"))
+		}
+		c.Status(204)
 	})
 	r.GET("/words/:id/withText", func(c *gin.Context) {
 		id := c.Param("id")

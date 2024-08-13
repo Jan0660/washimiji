@@ -1,7 +1,8 @@
 import { Show } from "solid-js";
 import { Character } from "../util/client";
-import { config } from "..";
+import { client, config } from "..";
 import { A } from "@solidjs/router";
+import ConfirmButton from "./ConfirmButton";
 
 export default function CharacterTerm(props: { character: Character }) {
     const char = props.character;
@@ -17,6 +18,10 @@ export default function CharacterTerm(props: { character: Character }) {
             <br/>
             <p class="termLinks">
                 <A href={"/characters/" + char._id + "/edit"} class="link">Edit</A>
+                {" "}
+                <ConfirmButton initialText="Delete" doneText="Done" action={async () => {
+                    await client.characters.delete(char._id);
+                }} />
             </p>
         </Show>
     </div>

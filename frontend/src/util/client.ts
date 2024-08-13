@@ -55,6 +55,10 @@ export class ClientCharacters {
     async patch(character: Partial<Character>) {
         await this.client._axios.patch("/characters", character);
     }
+
+    async delete(id: string) {
+        await this.client._axios.delete("/characters/" + id);
+    }
 }
 
 export class ClientWords {
@@ -86,6 +90,10 @@ export class ClientWords {
 
     async patch(word: Partial<Word>) {
         await this.client._axios.patch("/words", word);
+    }
+
+    async delete(id: string) {
+        await this.client._axios.delete("/words/" + id);
     }
 }
 
