@@ -84,10 +84,11 @@ generateCommand.SetHandler(async c =>
     charactersGlobal = characters;
 
     // take radicals
-    if (config.TakeRadical != null) {
+    if (config.TakeRadical != null)
+    {
         removeKanjiVGProperties = false;
         var svgs = new Dictionary<int, string>();
-        foreach(var (radical, character) in config.TakeRadical)
+        foreach (var (radical, character) in config.TakeRadical)
         {
             var radicalCode = BitConverter.ToInt32(Encoding.UTF32.GetBytes(radical));
             var svg = await GetCharacterSvgAsync(character);
@@ -109,7 +110,14 @@ generateCommand.SetHandler(async c =>
 
     foreach (var character in characters)
     {
-        await MakeCharacter(character);
+        try
+        {
+            await MakeCharacter(character);
+        }
+        catch (Exception _)
+        {
+            todoCharacters.Add(character);
+        }
     }
 
     for (var previousTodoCount = todoCharacters.Count + 1; previousTodoCount != todoCharacters.Count;)
@@ -119,7 +127,15 @@ generateCommand.SetHandler(async c =>
         foreach (var character in todoCharacters.ToArray())
         {
             Console.WriteLine($"todoing: {character.Name}");
-            await MakeCharacter(character, true);
+            try
+            {
+                await MakeCharacter(character, true);
+            }
+            catch (Exception exc)
+            {
+                report.FailedCharacterExceptions.Add(character.Name, exc.Message);
+                Console.WriteLine($"character '{character.Name}' failed with exception: {exc.GetType()} - {exc.Message}");
+            }
         }
     }
 
@@ -250,7 +266,8 @@ var dirOption = new Option<DirectoryInfo>("--dir")
 };
 preprocessAllCommand.AddOption(dirOption);
 preprocessAllCommand.AddOption(configOption);
-preprocessAllCommand.SetHandler(async c => {
+preprocessAllCommand.SetHandler(async c =>
+{
     var dir = c.ParseResult.GetValueForOption(dirOption);
     if (dir == null)
         throw new("dir not set");
@@ -260,7 +277,8 @@ preprocessAllCommand.SetHandler(async c => {
     config = JsonSerializer.Deserialize<MutilationFile>(await File.ReadAllTextAsync(configFile.FullName), options: jsonOptions)!;
     if (config.Preprocess == null)
         throw new("config's preprocess is null!");
-    foreach(var file in Directory.GetFiles(dir.FullName)){
+    foreach (var file in Directory.GetFiles(dir.FullName))
+    {
         var svg = await File.ReadAllTextAsync(file);
         svg = Mutilate(svg, config.Preprocess);
         await File.WriteAllTextAsync(file, svg);
@@ -851,4 +869,5 @@ public class Report
 {
     public Dictionary<string, string> MadeCharacters { get; } = new();
     public List<string> FailedCharacters { get; } = new();
+    public Dictionary<string, string> FailedCharacterExceptions { get; } = new();
 }
