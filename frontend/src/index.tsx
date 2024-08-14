@@ -11,6 +11,7 @@ type Config = {
   fontMTime?: number
   kanjiVGFontMTime?: number
   mTimeCheck?: number
+  checkAlways?: boolean
 }
 
 export let config = ((await localforage.getItem("washimiji.config")) ?? {}) as Config;
@@ -40,7 +41,7 @@ export const setFontStyles = () => {
   
 };
 
-if (!config.mTimeCheck || config.mTimeCheck < Date.now() - 10 * 60 * 1000) {
+if ((!config.mTimeCheck || config.mTimeCheck < Date.now() - 10 * 60 * 1000) || config.checkAlways) {
   client.mtimes().then((mtimes) => {
     let firstCheck = !config.fontMTime;
     let different = mtimes["font.ttf"] != config.fontMTime || mtimes["kanjivg-font.tff"] != config.kanjiVGFontMTime;
@@ -50,7 +51,6 @@ if (!config.mTimeCheck || config.mTimeCheck < Date.now() - 10 * 60 * 1000) {
       setFontStyles();
     }
     config.mTimeCheck = Date.now();
-    console.log(config);
     saveConfig();
   })
 }
