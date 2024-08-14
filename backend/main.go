@@ -470,6 +470,21 @@ func main() {
 		}
 		c.Status(204)
 	})
+	r.GET("/mtimes", func(c *gin.Context) {
+		files, err := os.ReadDir(Config.Paths.StaticServe)
+		if err != nil {
+			c.Status(500)
+			return
+		}
+		res := make(map[string]int64, len(files))
+		for _, file := range files {
+			info, err := file.Info()
+			if err == nil {
+				res[file.Name()] = info.ModTime().Unix()
+			}
+		}
+		c.JSON(200, res)
+	})
 	if _, err := os.Stat(Config.Paths.StaticServe); os.IsNotExist(err) {
 		os.Mkdir(Config.Paths.StaticServe, 0750)
 	}

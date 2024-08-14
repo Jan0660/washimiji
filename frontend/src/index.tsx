@@ -8,15 +8,56 @@ import Routing from './Routing';
 
 type Config = {
   token?: string
+  fontMTime?: number
+  kanjiVGFontMTime?: number
+  mTimeCheck?: number
 }
 
 export let config = ((await localforage.getItem("washimiji.config")) ?? {}) as Config;
 
 export const saveConfig = async () => {
-    await localforage.setItem("washimiji.config", config);
+  await localforage.setItem("washimiji.config", config);
 }
 
+// @ts-ignore
+globalThis.washimijiConfig = config;
+// @ts-ignore
+globalThis.washimijiSaveConfig = saveConfig;
+
 export const client = new Client(import.meta.env.VITE_API_URL, config.token);
+
+export const setFontStyles = () => {
+  let style = document.getElementById("font-styles")!;
+  style.innerHTML = `
+@font-face {
+          font-family: kanjivg-font;
+          src: url(${import.meta.env.VITE_STATIC_FILES}/kanjivg-font.ttf?t=${config.kanjiVGFontMTime});
+      }
+      @font-face {
+          font-family: washimiji-font;
+          src: url(${import.meta.env.VITE_STATIC_FILES}/font.ttf?t=${config.fontMTime});
+      }`
+  
+};
+
+if (!config.mTimeCheck || config.mTimeCheck < Date.now() - 10 * 60 * 1000) {
+  client.mtimes().then((mtimes) => {
+    let firstCheck = !config.fontMTime;
+    let different = mtimes["font.ttf"] != config.fontMTime || mtimes["kanjivg-font.tff"] != config.kanjiVGFontMTime;
+    config.fontMTime = mtimes["font.ttf"];
+    config.kanjiVGFontMTime = mtimes["kanjivg-font.ttf"];
+    if (!firstCheck && different) {
+      setFontStyles();
+    }
+    config.mTimeCheck = Date.now();
+    console.log(config);
+    saveConfig();
+  })
+}
+
+if (config.fontMTime) {
+  setFontStyles();
+}
 
 const root = document.getElementById('root');
 

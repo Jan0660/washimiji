@@ -31,6 +31,10 @@ export class Client {
     async makeFont() {
         await this._axios.get("/make-font");
     }
+
+    async mtimes(): Promise<{ [key: string]: number }> {
+        return (await this._axios.get("/mtimes")).data;
+    }
 }
 
 export class ClientCharacters {
