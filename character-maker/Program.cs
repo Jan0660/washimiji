@@ -265,6 +265,8 @@ var dirOption = new Option<DirectoryInfo>("--dir")
     IsRequired = true
 };
 preprocessAllCommand.AddOption(dirOption);
+var depreprocessOption = new Option<bool>("--depreprocess", () => false);
+preprocessAllCommand.AddOption(depreprocessOption);
 preprocessAllCommand.AddOption(configOption);
 preprocessAllCommand.SetHandler(async c =>
 {
@@ -277,6 +279,20 @@ preprocessAllCommand.SetHandler(async c =>
     config = JsonSerializer.Deserialize<MutilationFile>(await File.ReadAllTextAsync(configFile.FullName), options: jsonOptions)!;
     if (config.Preprocess == null)
         throw new("config's preprocess is null!");
+    var depreprocess = c.ParseResult.GetValueForOption(depreprocessOption);
+    if (depreprocess)
+    {
+        config = config with
+        {
+            Preprocess = config.Preprocess with
+            {
+                XMove = config.Preprocess.XMove * -1,
+                YMove = config.Preprocess.YMove * -1,
+                XMultiply = 1 / config.Preprocess.XMultiply,
+                YMultiply = 1 / config.Preprocess.YMultiply,
+            }
+        };
+    }
     foreach (var file in Directory.GetFiles(dir.FullName))
     {
         var svg = await File.ReadAllTextAsync(file);
