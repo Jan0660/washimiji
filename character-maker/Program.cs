@@ -133,7 +133,7 @@ generateCommand.SetHandler(async c =>
             }
             catch (Exception exc)
             {
-                report.FailedCharacterExceptions.Add(character.Name, exc.Message);
+                report.FailedCharacterExceptions[character.Name] = exc.Message;
                 Console.WriteLine($"character '{character.Name}' failed with exception: {exc.GetType()} - {exc.Message}");
             }
         }
@@ -370,6 +370,8 @@ async Task<string?> GetCharacterSvgAsync(string character)
     string svg;
     if (customCharacterSvgs.TryGetValue(character, out svg!))
         return svg;
+    if (Array.Exists(charactersGlobal, (i) => i.Name == character))
+        return null;
     // character is a character (in text, e.g. "塩")
     // todo(perf): don't use GetBytes
     var originalCode = BitConverter.ToInt32(Encoding.UTF32.GetBytes(character));
