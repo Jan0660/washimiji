@@ -197,6 +197,19 @@
                     "ymultiply": 0.7
                 }
             ]
+        },
+        {
+            "name": "𠂇",
+            "baseCharacter": "𠂇",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.4,
+                    "ymove": 0.35,
+                    "xmultiply": 0.6,
+                    "ymultiply": 0.65
+                }
+            ]
         }
     ]
 }
