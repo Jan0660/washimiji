@@ -48,7 +48,11 @@ func ToWashimiji(text string, context context.Context) (string, error) {
 		longestMatchLength := 0
 		for _, word := range words {
 			for _, wordForm := range word.Words {
-				if len(wordForm.Text) > longestMatchLength && i+len(wordForm.Text) <= len(text) && strings.EqualFold(text[i:i+len(wordForm.Text)], wordForm.Text) {
+				if len(wordForm.Text) > longestMatchLength &&
+					i+len(wordForm.Text) <= len(text) &&
+					strings.EqualFold(text[i:i+len(wordForm.Text)], wordForm.Text) &&
+					// e.g. if only the word for "to" exists, don't replace the "to" in "top"
+					(i+len(wordForm.Text) == len(text) || !isAlphabetical(text[i+len(wordForm.Text)])) {
 					longestMatch = &word
 					longestMatchLength = len(wordForm.Text)
 				}
