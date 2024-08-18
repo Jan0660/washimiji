@@ -130,6 +130,7 @@ If part count is not specified assume 1.
     - `灬`
     - `气`
 - 5 strokes
+    - `衤`
     - `癶`
     - `疒`
 - 6 strokes
