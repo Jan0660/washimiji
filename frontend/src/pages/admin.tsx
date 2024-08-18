@@ -19,5 +19,13 @@ export default function Admin() {
             await client.admin.derivedWords();
             window.location.reload();
         }}>Make Derived Words</button>
+        <br/>
+        <label>
+            <input type="checkbox" checked={config.checkAlways} onInput={async (ev) => {
+                config.checkAlways = ev.target.checked;
+                await saveConfig();
+            }}/>
+            Check for new font on every reload
+        </label>
     </>
 }
