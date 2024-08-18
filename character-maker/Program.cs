@@ -28,7 +28,8 @@ var strokeOrderRegex = new Regex("<g id=\"kvg:StrokeNumbers_.+?>(.|\n)+</g>", Re
 var kanjiVGPropertyRegex = new Regex("kvg:\\w+?=\".+?\"");
 var svgContentRegex = new Regex("<svg(?:.|\n)+?>((?:.|\n)+?)</svg>", RegexOptions.Compiled);
 var inkscapeJunkRegex = new Regex("<defs(?:.|\n)*?/>|<sodipodi:(?:.|\n)*?/>|sodipodi:(?:.|\n)*?\".*?\"", RegexOptions.Compiled);
-var groupRegex = ("<g id=\".+?\" kvg:element=\"", "\"(?:.|\n)*?>(.|\n)+?</g>");
+// <g id=\".+?\" kvg:element=\"灬\"(?:.|\n)*?>((?:\t|(?:<g (?:.|\n)+?</g>)|(?:<path (?:.|\n)+?/>)|\n)+)</g>
+var groupRegex = ("<g id=\".+?\" kvg:element=\"", "\"(?:.|\n)*?>((?:\t|(?:<g (?:.|\n)+?</g>)|(?:<path (?:.|\n)+?/>)|\n)+)</g>");
 var hexRegex = new Regex("[0-9A-Fa-f]+", RegexOptions.Compiled);
 var widthRegex = new Regex("width=\"[0-9]+\"", RegexOptions.Compiled);
 var str = new StringBuilder();
@@ -580,7 +581,7 @@ async Task MakeCharacter(Character character, bool isTodo = false)
     // todo(perf): can probably use something other than GetString
     var createdCharacter = Encoding.UTF32.GetString(BitConverter.GetBytes(newCode));
     createdCharacters.Append(createdCharacter);
-    report.MadeCharacters.Add(character.Name, newCodeStr);
+    report.MadeCharacters[character.Name] = newCodeStr;
     Console.WriteLine($"Made character '{createdCharacter}'({newCodeStr}) named '{character.Name}'");
 }
 

@@ -96,8 +96,45 @@ Array of:
 
 ## Available KanjiVG Mutilations
 
+If part count is not specified assume 1.
+
 - `2v` - part count: 2 - arranges two parts vertically 50/50
 - `2h` - part count: 2 - arranges two parts horizontally 50/50
 - `4` - part count: 4 - arranges 4 parts in a 2x2 grid
-- `⻌` - part count: 1
-- `門` - part count: 1
+- 2 strokes
+    - `亻`
+    - `冫`
+    - `亠`
+    - `冖`
+    - `卩`
+    - `𠂇`
+    - `冂`
+    - `凵`
+    - `匸`
+    - `匚`
+    - `勹`
+    - `几` - more like the one from 凧
+- 3 strokes
+    - `彳`
+    - `扌`
+    - `忄`
+    - `氵`
+    - `犭` - actually ⺨
+    - `艹`
+    - `⻌`
+    - `廴`
+    - `尸`
+    - `囗`
+- 4 strokes
+    - `礻`
+    - `灬`
+    - `气`
+- 5 strokes
+    - `癶`
+    - `疒`
+- 6 strokes
+    - `覀`
+- 8 strokes
+    - `門`
+- 10 strokes
+    - `鬥`

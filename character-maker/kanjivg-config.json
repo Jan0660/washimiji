@@ -14,7 +14,23 @@
         "ymultiply": 1.14
     },
     "takeRadical": {
-        "灬": "然"
+        "灬": "然",
+        "亻": "健",
+        "扌": "掘",
+        "亠": "京",
+        "冖": "軍",
+        "彳": "待",
+        "宀": "字",
+        "卩": "卯",
+        "几": "凧",
+        "冫": "次",
+        "⺨": "狂",
+        "忄": "忙",
+        "氵": "池",
+        "礻": "神",
+        "衤": "被",
+        "覀": "栗",
+        "癶": "発"
     },
     "mutilations": [
         {
@@ -208,6 +224,351 @@
                     "ymove": 0.35,
                     "xmultiply": 0.6,
                     "ymultiply": 0.65
+                }
+            ]
+        },
+        {
+            "name": "廴",
+            "baseCharacter": "廴",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "ymove": 0,
+                    "xmultiply": 0.75,
+                    "ymultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "亻",
+            "baseCharacter": "亻",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.15,
+                    "xmultiply": 0.85
+                }
+            ]
+        },
+        {
+            "name": "扌",
+            "baseCharacter": "扌",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "尸",
+            "baseCharacter": "尸",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.2,
+                    "ymove": 0.35,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.65
+                }
+            ]
+        },
+        {
+            "name": "亠",
+            "baseCharacter": "亠",
+            "partCount": 1,
+            "parts": [
+                {
+                    "ymove": 0.2,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "彳",
+            "baseCharacter": "彳",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "宀",
+            "baseCharacter": "宀",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.2,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "冖",
+            "baseCharacter": "冖",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.2,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "冂",
+            "baseCharacter": "冂",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.15,
+                    "ymove": 0.2,
+                    "xmultiply": 0.7,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "凵",
+            "baseCharacter": "凵",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.15,
+                    "xmultiply": 0.7,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "匸",
+            "baseCharacter": "匸",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.2,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.6
+                }
+            ]
+        },
+        {
+            "name": "勹",
+            "baseCharacter": "勹",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.2,
+                    "xmultiply": 0.6,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "匚",
+            "baseCharacter": "匚",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.2,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.6
+                }
+            ]
+        },
+        {
+            "name": "卩",
+            "baseCharacter": "卩",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmultiply": 0.6
+                }
+            ]
+        },
+        {
+            "name": "几",
+            "baseCharacter": "几",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.15,
+                    "ymove": 0.2,
+                    "xmultiply": 0.7,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "冫",
+            "baseCharacter": "冫",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.2,
+                    "xmultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "犭",
+            "baseCharacter": "犭",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "忄",
+            "baseCharacter": "忄",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "氵",
+            "baseCharacter": "氵",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "气",
+            "baseCharacter": "气",
+            "partCount": 1,
+            "parts": [
+                {
+                    "ymove": 0.5,
+                    "xmultiply": 0.75,
+                    "ymultiply": 0.5
+                }
+            ]
+        },
+        {
+            "name": "牜",
+            "baseCharacter": "牜",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "⺩",
+            "baseCharacter": "⺩",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "礻",
+            "baseCharacter": "礻",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.3,
+                    "xmultiply": 0.7
+                }
+            ]
+        },
+        {
+            "name": "疒",
+            "baseCharacter": "疒",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.2,
+                    "ymove": 0.25,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "衤",
+            "baseCharacter": "衤",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.25,
+                    "xmultiply": 0.75
+                }
+            ]
+        },
+        {
+            "name": "癶",
+            "baseCharacter": "癶",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.3,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.7
+                }
+            ]
+        },
+        {
+            "name": "覀",
+            "baseCharacter": "覀",
+            "partCount": 1,
+            "parts": [
+                {
+                    "ymove": 0.4,
+                    "ymultiply": 0.6
+                }
+            ]
+        },
+        {
+            "name": "釒",
+            "baseCharacter": "釒",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.3,
+                    "xmultiply": 0.7
+                }
+            ]
+        },
+        {
+            "name": "鬥",
+            "baseCharacter": "鬥",
+            "partCount": 1,
+            "parts": [
+                {
+                    "absoluteMove": true,
+                    "xmove": 21,
+                    "ymove": 40,
+                    "xmultiply": 0.55,
+                    "ymultiply": 0.55
                 }
             ]
         }
