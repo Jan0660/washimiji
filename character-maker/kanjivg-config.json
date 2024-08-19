@@ -30,7 +30,17 @@
         "礻": "神",
         "衤": "被",
         "覀": "栗",
-        "癶": "発"
+        "癶": "発",
+        "牛 as 牜": "牧",
+        "王 as ⺩": "玩",
+        "金 as 釒": "釘",
+        "足 as ⻊": "路",
+        "飠": "館",
+        "言 as 訁": "語",
+        "竹 as ⺮": "答",
+        "牛 as ⺧": "告",
+        "⻏": "邸",
+        "⻖": "阪"
     },
     "mutilations": [
         {
@@ -569,6 +579,134 @@
                     "ymove": 40,
                     "xmultiply": 0.55,
                     "ymultiply": 0.55
+                }
+            ]
+        },
+        {
+            "name": "牜",
+            "baseCharacter": "牜",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.5,
+                    "xmultiply": 0.5
+                }
+            ]
+        },
+        {
+            "name": "⺩",
+            "baseCharacter": "⺩",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.3,
+                    "ymove": 0,
+                    "xmultiply": 0.7,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "釒",
+            "baseCharacter": "釒",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.5,
+                    "ymove": 0,
+                    "xmultiply": 0.5,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "⻊",
+            "baseCharacter": "⻊",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.35,
+                    "ymove": 0,
+                    "xmultiply": 0.65,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "飠",
+            "baseCharacter": "飠",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.3,
+                    "ymove": 0,
+                    "xmultiply": 0.7,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "訁",
+            "baseCharacter": "訁",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.35,
+                    "ymove": 0,
+                    "xmultiply": 0.65,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "⺮",
+            "baseCharacter": "⺮",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0.3,
+                    "xmultiply": 1,
+                    "ymultiply": 0.7
+                }
+            ]
+        },
+        {
+            "name": "⺧",
+            "baseCharacter": "⺧",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0.5,
+                    "xmultiply": 1,
+                    "ymultiply": 0.5
+                }
+            ]
+        },
+        {
+            "name": "⻏",
+            "baseCharacter": "⻏",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0,
+                    "ymove": 0,
+                    "xmultiply": 0.6,
+                    "ymultiply": 1
+                }
+            ]
+        },
+        {
+            "name": "⻖",
+            "baseCharacter": "⻖",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.3,
+                    "ymove": 0,
+                    "xmultiply": 0.7,
+                    "ymultiply": 1
                 }
             ]
         }

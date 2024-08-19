@@ -121,12 +121,17 @@ If part count is not specified assume 1.
     - `氵`
     - `犭` - actually ⺨
     - `艹`
+    - `⻏` - on the right as in 邸
+    - `⻖` - on the left as in 阪
     - `⻌`
     - `廴`
     - `尸`
     - `囗`
 - 4 strokes
     - `礻`
+    - `牜`
+    - `⺩`
+    - `⺧`
     - `灬`
     - `气`
 - 5 strokes
@@ -134,8 +139,14 @@ If part count is not specified assume 1.
     - `癶`
     - `疒`
 - 6 strokes
+    - `⺮`
     - `覀`
+- 7 strokes
+    - `⻊`
+    - `訁`
 - 8 strokes
+    - `釒`
+    - `飠`
     - `門`
 - 10 strokes
     - `鬥`

@@ -88,24 +88,26 @@ generateCommand.SetHandler(async c =>
     if (config.TakeRadical != null)
     {
         removeKanjiVGProperties = false;
-        var svgs = new Dictionary<int, string>();
-        foreach (var (radical, character) in config.TakeRadical)
+        // var svgs = new Dictionary<int, string>();
+        foreach (var (radicalStr, character) in config.TakeRadical)
         {
-            var radicalCode = BitConverter.ToInt32(Encoding.UTF32.GetBytes(radical));
+            var radicalCode = BitConverter.ToInt32(Encoding.UTF32.GetBytes(radicalStr)[0..4]);
+            var radicalSplit = radicalStr.Split(" as ");
             var svg = await GetCharacterSvgAsync(character);
             if (svg == null)
                 throw new($"Invalid character '{character}' for taking radicals!");
-            var group = Regex.Match(svg, groupRegex.Item1 + radical + groupRegex.Item2);
+            var group = Regex.Match(svg, groupRegex.Item1 + radicalSplit[0] + groupRegex.Item2);
             if (!group.Success)
-                throw new($"Failed to get radical '{radical}' out of '{character}'");
+                throw new($"Failed to get radical '{radicalSplit[0]}'(as '{radicalSplit[^1]}') out of '{character}'");
             var val = group.Captures[0].Value;
             val = kanjiVGPropertyRegex.Replace(val, "");
             var index = val.IndexOf('>');
             // todo
             val = val[..index] + " style=\"fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;\"" + val[index..];
-            svgs[radicalCode] = val;
+            // svgs[radicalCode] = val;
+            customCharacterSvgs[radicalSplit[^1]] = val;
         }
-        characterSvgs = svgs;
+        // characterSvgs = svgs;
         removeKanjiVGProperties = true;
     }
 
