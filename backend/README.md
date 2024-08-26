@@ -38,3 +38,7 @@ All config options are required.
 
 Data from [Wiktextract](https://github.com/tatuylonen/wiktextract) is used for derived forms of words.
 Import the JSON from the bottom of [this page](https://kaikki.org/dictionary/English/index.html) into a MongoDB collection called `dict` in the database you are using.
+
+### Corrections
+
+- `{pos: "pron", word: "we"}` add `plural` to `tags` of item in `forms` that contains only `reflexive`

@@ -709,6 +709,42 @@
                     "ymultiply": 1
                 }
             ]
+        },
+        {
+            "name": "accusative",
+            "baseCharacter": "􀀀",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.2,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "reflexive",
+            "baseCharacter": "囗",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmove": 0.1,
+                    "ymove": 0.1,
+                    "xmultiply": 0.8,
+                    "ymultiply": 0.8
+                }
+            ]
+        },
+        {
+            "name": "possessive",
+            "baseCharacter": "己-right",
+            "partCount": 1,
+            "parts": [
+                {
+                    "xmultiply": 0.5
+                }
+            ]
         }
     ]
 }

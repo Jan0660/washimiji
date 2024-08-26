@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"slices"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/gzip"
@@ -270,6 +271,8 @@ func main() {
 	})
 	// todo: make it /admin/make-font
 	authed.GET("/make-font", func(c *gin.Context) {
+		CharactersModified = true
+		WordsModified = true
 		err := MakeFont(context.TODO())
 		if err != nil {
 			c.JSON(500, Error(err))
@@ -399,16 +402,33 @@ func main() {
 						continue
 					}
 					for _, form := range *wiktionaryWord.Forms {
+						if strings.ContainsRune(form.Form, ' ') {
+							continue
+						}
 						derivationName := DerivationName(form.Tags)
 						// make the character for the derived word
 						// even though the word may exist its character may not
 						if len(word.Characters) > 1 {
 							log.Println("making derived character for first character of multi-character word")
 						}
+						if !slices.Contains(
+							[]string{"past", "past-participle", "gerund", "third", "plural", "independent-possessive", "possessive", "reflexive", "reflexive-plural", "accusative"},
+							derivationName) {
+							log.Println("unsupported form tags:", form, derivationName)
+							continue
+						}
 						originalCharacter := word.Characters[0][2:]
 						characterName := originalCharacter + "-" + derivationName
 						res := CharCol.FindOne(ctx, bson.M{"makeInfo.name": characterName})
 						if errors.Is(res.Err(), mongo.ErrNoDocuments) {
+							if derivationName == "independent-possessive" {
+								derivationName = "plural"
+								originalCharacter = originalCharacter + "-possessive"
+							}
+							if derivationName == "reflexive-plural" {
+								derivationName = "plural"
+								originalCharacter = originalCharacter + "-reflexive"
+							}
 							CharCol.InsertOne(ctx, Character{
 								Id: NewUlid(),
 								MakeInfo: CharacterMakeInfo{
@@ -435,11 +455,6 @@ func main() {
 						err = res.Decode(&derivedWord)
 						if errors.Is(err, mongo.ErrNoDocuments) {
 							log.Println("word form '" + form.Form + "' doesn't exist")
-							if !slices.Contains(
-								[]string{"past", "past-participle", "gerund", "third", "plural"},
-								derivationName) {
-								log.Println("unsupported form tags:", form, derivationName)
-							}
 							derivedWord = Word{
 								Id:          NewUlid(),
 								Characters:  []string{"n:" + characterName},

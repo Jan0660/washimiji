@@ -35,6 +35,12 @@ func DerivationName(tags []string) string {
 		derivationName = "third"
 	} else if ArrayIs(tags, []string{"participle", "present"}) {
 		derivationName = "gerund"
+	} else if ArrayIs(tags, []string{"possessive", "pronoun", "without-noun"}) {
+		derivationName = "independent-possessive"
+	} else if ArrayIs(tags, []string{"possessive", "determiner"}) {
+		derivationName = "possessive"
+	} else if ArrayIs(tags, []string{"singular", "reflexive"}) {
+		derivationName = "reflexive"
 	} else {
 		slices.Reverse(tags)
 		derivationName = strings.Join(tags, "-")
