@@ -99,6 +99,10 @@ export class ClientWords {
     async delete(id: string) {
         await this.client._axios.delete("/words/" + id);
     }
+
+    async getDerived(id: string): Promise<WordWithText[]> {
+        return (await this.client._axios.get("/words/" + id + "/derived")).data;
+    }
 }
 
 export class ClientConvert {

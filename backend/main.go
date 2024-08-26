@@ -198,6 +198,21 @@ func main() {
 		}
 		c.JSON(200, word)
 	})
+	r.GET("/words/:id/derived", func(c *gin.Context) {
+		id := c.Param("id")
+		words, err := GetAllWordsWithTextCached(context.TODO())
+		if err != nil {
+			c.JSON(500, Error(err))
+			return
+		}
+		derivedWords := make([]WordWithText, 0, 24)
+		for _, word := range words {
+			if word.DerivedFrom != nil && *word.DerivedFrom == id {
+				derivedWords = append(derivedWords, word)
+			}
+		}
+		c.JSON(200, derivedWords)
+	})
 	authed.POST("/words", func(c *gin.Context) {
 		WordsModified = true
 		var word Word
