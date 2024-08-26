@@ -15,8 +15,8 @@ export default function WordPage() {
         <Show when={word()} fallback={<h2>Loading...</h2>}>
             <WordTerm word={word()!} />
         </Show>
-        <h2>Derived Words</h2>
-        <Show when={derivedWords()}>
+        <Show when={derivedWords().length}>
+            <h2>Derived Words</h2>
             <For each={derivedWords()}>
                 {(item, _) => <WordTerm word={item} />}
             </For>
