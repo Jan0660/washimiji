@@ -8,6 +8,7 @@ export default function CharacterEditor(props: { character: Character, setCharac
     const [name, setName] = createSignal(character.makeInfo?.name ?? "");
     const [code, setCode] = createSignal(character.makeInfo?.code ?? "");
     const [parts, setParts] = createSignal(character.makeInfo?.parts ?? [] as CharacterMakePart[]);
+    const [manuallyDerived, setManuallyDerived] = createSignal(character.manuallyDerived ?? false);
     createEffect(() => {
         console.log("CharacterEditor effect");
         let newCharacter = {
@@ -17,6 +18,7 @@ export default function CharacterEditor(props: { character: Character, setCharac
                 code: code() == "" ? undefined : code(),
                 parts: parts(),
             },
+            manuallyDerived: manuallyDerived(),
         };
         setCharacter(newCharacter);
         console.log(newCharacter);
@@ -35,6 +37,11 @@ export default function CharacterEditor(props: { character: Character, setCharac
         <input id="codeInput" type="text" placeholder="Code" value={props.character.makeInfo.code ?? ""} onInput={
             (e) => setCode(e.target.value)
         } />
+        <br />
+        <input id="manuallyDerivedCheckbox" type="checkbox" checked={manuallyDerived()} onInput={(e) => setManuallyDerived(e.target.checked)} />
+        <label for="manuallyDerivedCheckbox">
+            Manually Derived
+        </label>
         <br />
         <label>Parts</label>
         <DumbArrayEditor makeEmpty={() => ({ type: "char" } as CharacterMakePart)} array={parts} setArray={setParts}
@@ -71,8 +78,8 @@ function PartEditor(props: { part: CharacterMakePart, setPart: (part: CharacterM
         </select>
         <input type="text" value={type()} onInput={ev => setType(ev.target.value)} />
         <Show when={parts().length == 0}>
-            <br/>
-            <input type="text" value={character()} onInput={ev => setCharacter(ev.target.value)} placeholder="Character"/>
+            <br />
+            <input type="text" value={character()} onInput={ev => setCharacter(ev.target.value)} placeholder="Character" />
         </Show>
         <Show when={character() == ""}>
             <br />

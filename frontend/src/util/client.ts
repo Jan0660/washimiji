@@ -144,6 +144,7 @@ export type ConvertResponse = {
 export type Character = {
     _id: string
     makeInfo: CharacterMakeInfo
+    manuallyDerived?: boolean
 };
 
 export type CharacterMakeInfo = {

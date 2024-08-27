@@ -64,8 +64,9 @@ type ViewBox struct {
 // database types
 
 type Character struct {
-	Id       string            `json:"_id" bson:"_id"`
-	MakeInfo CharacterMakeInfo `json:"makeInfo" bson:"makeInfo"`
+	Id              string            `json:"_id" bson:"_id"`
+	MakeInfo        CharacterMakeInfo `json:"makeInfo" bson:"makeInfo"`
+	ManuallyDerived bool              `json:"manuallyDerived,omitempty" bson:"manuallyDerived,omitempty"`
 }
 
 type Word struct {
