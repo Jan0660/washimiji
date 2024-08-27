@@ -35,12 +35,25 @@ export default function WordEditor(props: { word: Word, setWord: Setter<Word>, }
         <br />
         <DumbArrayEditor makeEmpty={() => ({text: ""} as WordForm)} array={words} setArray={setWords} renderItem={(wordForm, index) => {
             return <div>
+                <label>Word</label>
                 <input id="wordsInput" type="text" placeholder="Words" value={wordForm.text} onInput={
                     (e) => {
                         const m = words();
                         m[index()] = {
                             ...m[index()],
                             text: e.target.value,
+                        };
+                        setWords(m);
+                    }
+                } />
+                <br/>
+                <label>Etymology Number</label>
+                <input id="wordsInput" type="text" placeholder="Etymology Number" value={wordForm.etymologyNumber ?? ""} onInput={
+                    (e) => {
+                        const m = words();
+                        m[index()] = {
+                            ...m[index()],
+                            etymologyNumber: e.target.value == "" ? undefined : +e.target.value,
                         };
                         setWords(m);
                     }
