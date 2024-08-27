@@ -27,5 +27,13 @@ export default function Admin() {
             }}/>
             Check for new font on every reload
         </label>
+        <br />
+        <label>
+            <input type="checkbox" checked={config.showPartPlacement} onInput={async (ev) => {
+                config.showPartPlacement = ev.target.checked;
+                await saveConfig();
+            }}/>
+            Show manual move and multiply controls on character parts
+        </label>
     </>
 }

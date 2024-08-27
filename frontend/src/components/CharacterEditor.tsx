@@ -1,6 +1,7 @@
 import { createEffect, createSignal, For, Setter, Show } from "solid-js";
 import { Character, CharacterMakePart } from "../util/client";
 import { DumbArrayEditor } from "./DumbArrayEditor";
+import { config } from "..";
 
 export default function CharacterEditor(props: { character: Character, setCharacter: Setter<Character>, }) {
     const { character, setCharacter } = props;
@@ -60,11 +61,17 @@ function PartEditor(props: { part: CharacterMakePart, setPart: (part: CharacterM
     const [type, setType] = createSignal(part.type ?? "char");
     const [character, setCharacter] = createSignal(part.character ?? "");
     const [parts, setParts] = createSignal(part.parts ?? [] as CharacterMakePart[]);
+    const [move, setMove] = createSignal(part.move ?? []);
+    const initialMoveString = move().map(v => v.toString()).join(" ");
+    const [multiply, setMultiply] = createSignal(part.multiply ?? []);
+    const initialMultiplyString = multiply().map(v => v.toString()).join(" ");
     createEffect(() => {
         setPart({
             type: type(),
             parts: parts().length == 0 ? undefined : parts(),
             character: character() == "" ? undefined : character(),
+            move: move()?.length == 2 ? move() : undefined,
+            multiply: multiply()?.length == 2 ? multiply() : undefined,
         });
     });
     return <div class="partEditor">
@@ -77,6 +84,16 @@ function PartEditor(props: { part: CharacterMakePart, setPart: (part: CharacterM
             </For>
         </select>
         <input type="text" value={type()} onInput={ev => setType(ev.target.value)} />
+        <Show when={config.showPartPlacement}>
+            <br />
+            <label>Move</label>
+            <input type="text" value={initialMoveString}
+                onInput={ev => setMove(ev.target.value.split(" ").map(v => +v))} />
+            <br />
+            <label>Multiply</label>
+            <input type="text" value={initialMultiplyString}
+                onInput={ev => setMultiply(ev.target.value.split(" ").map(v => +v))} />
+        </Show>
         <Show when={parts().length == 0}>
             <br />
             <input type="text" value={character()} onInput={ev => setCharacter(ev.target.value)} placeholder="Character" />

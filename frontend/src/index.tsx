@@ -12,6 +12,7 @@ type Config = {
   kanjiVGFontMTime?: number
   mTimeCheck?: number
   checkAlways?: boolean
+  showPartPlacement?: boolean
 }
 
 export let config = ((await localforage.getItem("washimiji.config")) ?? {}) as Config;
