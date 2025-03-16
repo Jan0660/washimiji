@@ -16,6 +16,10 @@
   padding-bottom: 100px;
 }
 
+input {
+  font-size: calc(10px + 1.5vmin);
+}
+
 .header {
   margin-top: 0;
   padding-top: 100px;

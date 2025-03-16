@@ -4,6 +4,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+var DerivationNames = []string{"past", "past-participle", "gerund", "third", "plural", "independent-possessive", "possessive", "reflexive", "reflexive-plural", "accusative"}
+
 // types for communication with other parts of the project
 
 type ChracterMakerConfig struct {

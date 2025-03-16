@@ -43,6 +43,7 @@ func GetWordText(word Word, characters []Character) string {
 					}
 					characterCode, _ := strconv.ParseInt(*character.MakeInfo.Code, 16, 32)
 					text += string(rune(characterCode))
+					break
 				}
 			}
 		} else if strings.HasPrefix(char, "t:") {

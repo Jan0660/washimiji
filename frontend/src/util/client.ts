@@ -72,12 +72,22 @@ export class ClientWords {
         this.client = client;
     }
 
-    async getAll(): Promise<Word[]> {
-        return (await this.client._axios.get("/words")).data;
+    async getAll(signal?: AbortSignal): Promise<Word[]> {
+        return (await this.client._axios.get("/words", {
+            signal: signal,
+        })).data;
     }
 
-    async getAllWithText(): Promise<WordWithText[]> {
-        return (await this.client._axios.get("/words/withText")).data;
+    async getAllWithText(signal?: AbortSignal): Promise<WordWithText[]> {
+        return (await this.client._axios.get("/words/withText", {
+            signal: signal,
+        })).data;
+    }
+
+    async search(q:string, signal?: AbortSignal): Promise<Word[]> {
+        return (await this.client._axios.get("/words/search?q=" + encodeURIComponent(q), {
+            signal: signal,
+        })).data;
     }
 
     async get(id: string): Promise<Word> {

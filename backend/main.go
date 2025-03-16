@@ -28,6 +28,8 @@ var CharCol *mongo.Collection
 var WordCol *mongo.Collection
 var DictCol *mongo.Collection
 
+const SearchQueryLength int = 512
+
 func main() {
 	{
 		bytes, err := os.ReadFile("./config.json")
@@ -186,6 +188,38 @@ func main() {
 			return
 		}
 		c.JSON(200, &words)
+	})
+	r.GET("/words/search", func(c *gin.Context) {
+		// parse query
+		q := c.Query("q")
+		if len(q) > SearchQueryLength {
+			c.JSON(500, ErrorStr("query too long, > 512"))
+			return
+		}
+		query := ParseSearchQuery(q)
+		results := make([]WordWithText, 0)
+		words, err := GetAllWordsWithTextCached(context.TODO())
+		if err != nil {
+			c.JSON(500, Error(err))
+			return
+		}
+		for _, word := range words {
+			if query.DerivedFrom != "" && (word.DerivedFrom == nil || (word.DerivedFrom != nil && *word.DerivedFrom != query.DerivedFrom)) {
+				continue
+			}
+			if len(query.DerivedNames) != 0 && (word.DerivedName == nil || (word.DerivedName != nil && !slices.Contains(query.DerivedNames, *word.DerivedName))) {
+				continue
+			}
+			if query.Text != "" && !(slices.ContainsFunc(word.Words, func(word WordForm) bool { return strings.EqualFold(word.Text, query.Text) }) ||
+				strings.EqualFold(word.Text, query.Text)) {
+				continue
+			}
+			if slices.Contains(query.Tags, "notderived") && word.DerivedFrom != nil {
+				continue
+			}
+			results = append(results, word)
+		}
+		c.JSON(200, results)
 	})
 	r.GET("/words/:id", func(c *gin.Context) {
 		id := c.Param("id")
@@ -426,9 +460,7 @@ func main() {
 						if len(word.Characters) > 1 {
 							log.Println("making derived character for first character of multi-character word")
 						}
-						if !slices.Contains(
-							[]string{"past", "past-participle", "gerund", "third", "plural", "independent-possessive", "possessive", "reflexive", "reflexive-plural", "accusative"},
-							derivationName) {
+						if !slices.Contains(DerivationNames, derivationName) {
 							log.Println("unsupported form tags:", form, derivationName)
 							continue
 						}
